@@ -23,6 +23,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,6 +110,16 @@ public class connect_car extends DialogFragment {
                     ((home)getActivity()).car_reg_no=car_no.get(i);
                     getDialog().dismiss();
                     ((home)getActivity()).setdata();
+                    JSONObject jsonObject=new JSONObject();
+                    try {
+                        jsonObject.put("car","TN23CA0237");
+                        jsonObject.put("phone",getActivity().getSharedPreferences("zeus", Context.MODE_PRIVATE).getString("phone","default"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    ((home)getActivity()).socket.emit("car_connect",jsonObject);
                 }
             });
             return view1;
